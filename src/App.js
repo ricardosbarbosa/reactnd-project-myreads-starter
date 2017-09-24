@@ -5,6 +5,7 @@ import PageLibrary from './PageLibrary'
 import PageSearch from './PageSearch'
 import { Route } from 'react-router-dom'
 import * as BooksApi from './BooksAPI'
+import PageBookDetails from './PageBookDetails'
 
 class BooksApp extends React.Component {
 
@@ -13,6 +14,11 @@ class BooksApp extends React.Component {
   }
 
   componentDidMount() {
+    console.log("did mount")
+    
+  }
+  componentWillMount() {
+    console.log("will mount")
     BooksApi.getAll().then( (books) => {
       this.setState({ books });
     })
@@ -37,6 +43,7 @@ class BooksApp extends React.Component {
       })
     this.setState({ books });
   }
+
   render() {
     console.log(this.state.books)
     return (
@@ -47,6 +54,14 @@ class BooksApp extends React.Component {
         <Route exact path='/' render={() => (
           <PageLibrary books={this.state.books} changeBookshelf={this.changeBookshelf}/>
         )}/>
+        <Route path="/books/:book_id" render={ ({ match }) => {
+          console.log(match.params.book_id)
+          console.log('route')
+          const book = this.state.books.filter( (book) => book.id === match.params.book_id )
+          console.log(book)
+          return <PageBookDetails book={book[0]}/>
+          
+        }}/>
       </div>
     )
   }
