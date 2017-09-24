@@ -38,9 +38,9 @@ class PageSearch extends Component {
 
   verifyBooks = (booksSearched, books) => {
     const booksSearchedVerified = booksSearched.map( (bookSearched) => {
-      const match = books.filter( (book) => book.id === bookSearched.id)
-      if (match.length > 0) {
-        bookSearched.shelf = match[0].shelf
+      const match = books.find( (book) => book.id === bookSearched.id)
+      if (match) {
+        bookSearched.shelf = match.shelf
       }
       else {
         bookSearched.shelf = 'none'
